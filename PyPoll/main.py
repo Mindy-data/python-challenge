@@ -31,32 +31,35 @@ with open(csvpath) as csvfile:
         else:
             candidates[candidate] = 1
 
-    #My for loop to capture the # of votes, the winner votes and the percentage of the vote        
-    #add .items so you don't write over the keys (candidate names)
-    for w, w_v in candidates.items():
-        percentage.append((w_v/ total_votes) * 100)
-        if w_v > won_votes:
-            winner = w
-            won_votes = w_v
-
-#Keys are the names of the candidates, this stores the names into a list
-candidates_names = list(candidates.keys())
-
-
 output=(
     f"Election Results\n"
     f"--------------------------\n"
     f"Total Votes:{total_votes}\n"
     f"--------------------------\n"
-    f"{candidates}: {percentage}% {(won_votes)}\n"
-    f"--------------------------\n"
-    f"Winner: {winner}\n"
-    f"--------------------------\n"
 )
-
 
 with open(txtpath,"w") as txtfile:
     txtfile.write(output)
+    print(output)
 
+    
+    for w, w_v in candidates.items():
+            percentage= w_v/ total_votes * 100
+            output = (
+                f"{w}: {percentage:.3f}% {(w_v)}\n"
 
-print(output)
+            )
+            txtfile.write(output)
+            print(output)
+            if w_v > won_votes:
+                winner = w
+                won_votes = w_v
+
+    output=(
+        f"--------------------------\n"
+        f"Winner: {winner}\n"
+        f"--------------------------\n"
+
+    )
+    txtfile.write(output)
+    print(output)
